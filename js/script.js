@@ -1,14 +1,22 @@
-import {todo} from './data.js'
+
 
 const {createApp} = Vue ;
 createApp({
     data(){
         return{
-            todo: todo,
-            itemText:''
+            todo:[],
+            itemText:'',
+            apiUrl: 'server.php',
+            lastId: 5,
         }
     },
     methods:{
+        geData(){
+            axios.get(this.apiUrl).then((res)=>{
+                this.todo = res.data;
+                console.log(res.data)
+            })
+        },
         toggleDone(id){
             const item = this.todo.find((el)=>{
                 return el.id === id;
@@ -43,6 +51,6 @@ createApp({
         }
     },
     mounted(){
-        // console.log(this.todo)
+       this.getData()
     }
 }).mount('#app')
